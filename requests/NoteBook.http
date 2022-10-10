@@ -1,0 +1,31 @@
+###
+
+###
+//? Sign in request
+POST {{base_url}}auth/signin HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+
+{ "email" : "jb@jb.jb", "password": "jb123" }
+
+> {%
+    client.global.set("auth_token", response.body['token']);
+  %}
+
+###
+//? Create notebook request
+POST {{base_url}}/notebook/create_note_book HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{ "name": "jb2" }
+
+###
+//? Get notebook request
+GET {{base_url}}/notebook/get_note_book HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{}
