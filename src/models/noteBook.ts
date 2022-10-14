@@ -1,5 +1,7 @@
 import { INoteBook } from '@/interfaces/INoteBook';
 import mongoose from 'mongoose';
+import Note from '@/models/note';
+import User from '@/models/user';
 
 const NoteBook = new mongoose.Schema(
   {
@@ -11,13 +13,13 @@ const NoteBook = new mongoose.Schema(
 
     owner: {
       type: mongoose.Types.ObjectId,
-      ref: 'users',
+      ref: User,
     },
 
     notes: [
       {
         type: mongoose.Types.ObjectId,
-        ref: 'notes',
+        ref: Note,
       },
     ],
 

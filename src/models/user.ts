@@ -1,5 +1,6 @@
 import { IUser } from '@/interfaces/IUser';
 import mongoose from 'mongoose';
+import NoteBook from '@/models/noteBook';
 
 const User = new mongoose.Schema(
   {
@@ -28,7 +29,7 @@ const User = new mongoose.Schema(
     noteBooks: [
       {
         type: mongoose.Types.ObjectId,
-        ref: 'notebooks',
+        ref: NoteBook,
       },
     ],
   },

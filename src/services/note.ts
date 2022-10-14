@@ -4,7 +4,7 @@ import {
   EventDispatcherInterface,
 } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
-import { INote, INoteDTO } from '@/interfaces/INote';
+import { INote, INoteDTO, INoteUpdateDTO } from '@/interfaces/INote';
 
 @Service()
 export default class NoteService {
@@ -41,6 +41,7 @@ export default class NoteService {
       return { note };
     } catch (error) {
       this.logger.error(error);
+
       throw error;
     }
   }
@@ -52,12 +53,21 @@ export default class NoteService {
     return { listNote };
   }
 
-  // public async UpdateNote(): Promise<{ success: boolean }> {
-  //   try {
-  //     this.logger.silly('Updating user note record');
-  //   } catch (error) {
-  //     this.logger.error(error);
-  //     throw error;
-  //   }
-  // }
+  public async UpdateNote(
+    noteUpdateDTO: INoteUpdateDTO,
+  ): Promise<{ success: boolean }> {
+    try {
+      this.logger.silly('Updating user note record');
+      await this.noteModel.updateOne(
+        { _id: noteUpdateDTO._id },
+        { markdownNote: noteUpdateDTO.markdownNote },
+      );
+
+      return { success: true };
+    } catch (error) {
+      this.logger.error(error);
+
+      throw error;
+    }
+  }
 }

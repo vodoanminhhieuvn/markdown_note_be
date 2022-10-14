@@ -14,4 +14,4 @@ const pick = (object: { [x: string]: any }, keys: any[]): object => {
   }, {});
 };
 
-module.exports = pick;
+export default pick;

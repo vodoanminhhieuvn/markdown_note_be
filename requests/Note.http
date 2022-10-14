@@ -27,3 +27,12 @@ Cookie: key=first-value
 Authorization: Bearer {{auth_token}}
 
 {}
+
+###
+//? Get note request
+PUT {{base_url}}/note/update_note HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{"_id": "6344259d0db252a55442e3d1","markdownNote": "### Update World" }

@@ -5,6 +5,7 @@ import {
 } from '@/decorators/eventDispatcher';
 import events from '@/subscribers/events';
 import { INoteBook, INoteBookDTO } from '@/interfaces/INoteBook';
+import { INote } from '@/interfaces/INote';
 
 @Service()
 export default class NoteBookService {
@@ -55,5 +56,16 @@ export default class NoteBookService {
     );
 
     return { listNoteBook };
+  }
+
+  public async GetNotes(noteBookID: string): Promise<{ listNote: INote[] }> {
+    this.logger.silly('Getting user notes record in notebook');
+    const noteBookRecord = await this.noteBookModel
+      .findById(noteBookID)
+      .populate<{ notes: INote[] }>('notes');
+
+    const listNote = noteBookRecord.notes;
+
+    return { listNote };
   }
 }

@@ -24,4 +24,16 @@ export default (app: Router) => {
     middlewares.isAuth,
     NoteBookController.getNoteBook,
   );
+
+  route.get(
+    '/get_notes',
+    celebrate({
+      [Segments.QUERY]: Joi.object({
+        noteID: Joi.string().required(),
+        noteName: Joi.string(),
+      }),
+    }),
+    middlewares.isAuth,
+    NoteBookController.getNotes,
+  );
 };

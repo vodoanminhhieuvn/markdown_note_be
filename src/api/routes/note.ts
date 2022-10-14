@@ -13,7 +13,7 @@ export default (app: Router) => {
     celebrate({
       [Segments.BODY]: Joi.object({
         note: Joi.object({
-          name: Joi.string().required(),
+          name: Joi.string(),
           markdownNote: Joi.string(),
         }).required(),
         noteBookID: Joi.string(),
@@ -24,4 +24,18 @@ export default (app: Router) => {
   );
 
   route.get('/get_notes', middlewares.isAuth, NoteController.getNotes);
+
+  route.get('/get_notes_by_filter', middlewares.isAuth);
+
+  route.put(
+    '/update_note',
+    celebrate({
+      [Segments.BODY]: Joi.object({
+        _id: Joi.string().required(),
+        markdownNote: Joi.string(),
+      }),
+    }),
+    middlewares.isAuth,
+    NoteController.updateNotes,
+  );
 };

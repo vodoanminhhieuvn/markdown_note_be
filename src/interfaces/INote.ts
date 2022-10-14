@@ -10,3 +10,8 @@ export interface INoteDTO {
   name: string;
   markdownNote?: string;
 }
+
+export interface INoteUpdateDTO {
+  _id: string;
+  markdownNote: string;
+}
