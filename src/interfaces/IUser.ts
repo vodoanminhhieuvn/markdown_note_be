@@ -7,6 +7,7 @@ export interface IUser {
   password: string;
   salt: string;
   noteBooks: string[];
+  tags: string[];
 }
 
 export interface IUserInputDTO {

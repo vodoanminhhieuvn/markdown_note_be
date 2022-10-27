@@ -62,7 +62,19 @@ export default class NoteBookService {
     this.logger.silly('Getting user notes record in notebook');
     const noteBookRecord = await this.noteBookModel
       .findById(noteBookID)
-      .populate<{ notes: INote[] }>('notes');
+      .populate<{ notes: INote[] }>({
+        path: 'notes',
+        options: {
+          sort: { createdAt: -1 },
+          populate: [
+            { path: 'noteBook', select: { _id: 1, name: 1 } },
+            {
+              path: 'tags',
+              select: { _id: 1, name: 1, color: 1 },
+            },
+          ],
+        },
+      });
 
     const listNote = noteBookRecord.notes;
 

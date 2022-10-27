@@ -1,17 +1,23 @@
 import { Container } from 'typedi';
 import { Request, Response } from 'express';
 import catchAsync from '@/utils/catchAsync';
-import { INoteDTO, INoteUpdateDTO } from '@/interfaces/INote';
-import NoteService from '@/services/note';
 import { Logger } from 'winston';
+import {
+  INoteDTO,
+  INoteUpdateDTO,
+  INoteUpdateNotebookDTO,
+  INoteUpdateStatusDTO,
+  INoteUpdateTagsDTO,
+} from '@/interfaces/INote';
+import NoteService from '@/services/note';
 
 const createNote = catchAsync(async (req: Request, res: Response) => {
   const logger: Logger = Container.get('logger');
   logger.debug('Calling Create-Note endpoint with body: %o', req.body);
 
   const noteDTO: INoteDTO = req.body['note'];
-  const owner = req['auth']._id;
-  const noteBookID = req.body['noteBookID'];
+  const owner: string = req['auth']._id;
+  const noteBookID: string = req.body['noteBookID'];
 
   const noteService = Container.get(NoteService);
   const { note } = await noteService.CreateNote(noteDTO, owner, noteBookID);
@@ -43,8 +49,48 @@ const updateNotes = catchAsync(async (req: Request, res: Response) => {
   return res.json({ success }).status(200);
 });
 
+const updateNoteBook = catchAsync(async (req: Request, res: Response) => {
+  const logger: Logger = Container.get('logger');
+  logger.debug('Calling Update-Notebook endpoint with body: %o', req.body);
+
+  const noteUpdateNotebookDTO: INoteUpdateNotebookDTO = req.body;
+
+  const noteService = Container.get(NoteService);
+  const { success } = await noteService.UpdateNoteBook(noteUpdateNotebookDTO);
+
+  return res.json({ success }).status(200);
+});
+
+const updateStatus = catchAsync(async (req: Request, res: Response) => {
+  const logger: Logger = Container.get('logger');
+  logger.debug('Calling Update-Status endpoint with body: %o', req.body);
+
+  const noteUpdateStatusDTO: INoteUpdateStatusDTO = req.body;
+
+  const noteService = Container.get(NoteService);
+  const { success } = await noteService.UpdateStatus(noteUpdateStatusDTO);
+
+  return res.json({ success }).status(200);
+});
+
+const updateTags = catchAsync(async (req: Request, res: Response) => {
+  const logger: Logger = Container.get('logger');
+  logger.debug('Calling Update-Tags endpoint with body: %o', req.body);
+
+  const noteUpdateTagsDTO: INoteUpdateTagsDTO = req.body;
+
+  const noteService = Container.get(NoteService);
+
+  const { success } = await noteService.UpdateTags(noteUpdateTagsDTO);
+
+  return res.json({ success }).status(200);
+});
+
 export default {
   createNote,
   getNotes,
   updateNotes,
+  updateNoteBook,
+  updateStatus,
+  updateTags,
 };

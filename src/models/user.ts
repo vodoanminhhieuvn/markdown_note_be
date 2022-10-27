@@ -1,6 +1,5 @@
 import { IUser } from '@/interfaces/IUser';
 import mongoose from 'mongoose';
-import NoteBook from '@/models/noteBook';
 
 const User = new mongoose.Schema(
   {
@@ -25,13 +24,6 @@ const User = new mongoose.Schema(
       type: String,
       default: 'users',
     },
-
-    noteBooks: [
-      {
-        type: mongoose.Types.ObjectId,
-        ref: NoteBook,
-      },
-    ],
   },
   { timestamps: true },
 );

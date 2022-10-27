@@ -17,7 +17,7 @@ Content-Type: application/json
 Cookie: key=first-value
 Authorization: Bearer {{auth_token}}
 
-{ "note": {"name": "third note", "markdownNote": "# Hello World"}, "noteBookID": "6340f0e16bc2907ee1636ba1" }
+{ "note": {"name": "testing"}, "noteBookID": "6340f0e16bc2907ee1636ba1" }
 
 ###
 //? Get note request
@@ -29,10 +29,28 @@ Authorization: Bearer {{auth_token}}
 {}
 
 ###
-//? Get note request
+//? update note request
 PUT {{base_url}}/note/update_note HTTP/1.1
 Content-Type: application/json
 Cookie: key=first-value
 Authorization: Bearer {{auth_token}}
 
-{"_id": "6344259d0db252a55442e3d1","markdownNote": "### Update World" }
+{"_id": "6344259d0db252a55442e3d1","name": "new","markdownNote": "### Update World" }
+
+###
+//? Update notebook request
+PUT {{base_url}}/note/update_notebook HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{ "noteID": "6344259d0db252a55442e3d1", "notebookID": "6340f1e36bc2907ee1636ba5" }
+
+###
+//? Add tags request
+PUT {{base_url}}/note/update_tags HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{ "noteID": "6344259d0db252a55442e3d1", "tags": ["634ff206a0705bc988e6a301"] }

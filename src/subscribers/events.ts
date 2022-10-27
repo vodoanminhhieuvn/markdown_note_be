@@ -8,5 +8,9 @@ export default {
   },
   note: {
     create: 'onCreateNote',
+    updateNotebook: 'onUpdateNotebook',
+  },
+  tag: {
+    create: 'onCreateTag',
   },
 };

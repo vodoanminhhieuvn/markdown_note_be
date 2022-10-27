@@ -23,9 +23,56 @@ export default class NoteSubscriber {
         { $push: { notes: noteID } },
       );
     } catch (error) {
-      Logger.error(`🔥 Error on event ${events.user.signIn}: %o`, error);
+      Logger.error(`🔥 Error on event ${events.note.create}: %o`, error);
 
       // Throw the error so the process die (check src/app.ts)
+      throw error;
+    }
+  }
+
+  @On(events.note.updateNotebook)
+  public async onUpdateNotebook({
+    noteID,
+    currentNotebookID,
+    updateNotebookID,
+  }) {
+    const logger: Logger = Container.get('logger');
+
+    if (updateNotebookID == null || currentNotebookID == updateNotebookID)
+      return;
+
+    try {
+      const NoteBookModel = Container.get('noteBookModel') as mongoose.Model<
+        INoteBook & mongoose.Document
+      >;
+
+      if (currentNotebookID) {
+        await NoteBookModel.findOneAndUpdate(
+          {
+            _id: currentNotebookID,
+          },
+          {
+            $pull: { notes: noteID },
+          },
+        ).exec();
+      }
+
+      await NoteBookModel.findOneAndUpdate(
+        {
+          _id: updateNotebookID,
+        },
+        {
+          $push: { notes: noteID },
+        },
+      );
+
+      console.log('Printing', currentNotebookID, ':', updateNotebookID);
+    } catch (error) {
+      logger.error(
+        `🔥 Error on event ${events.note.updateNotebook}: %o`,
+        error,
+      );
+
       throw error;
     }
   }

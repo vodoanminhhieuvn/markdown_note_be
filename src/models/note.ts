@@ -1,20 +1,41 @@
 import { INote } from '@/interfaces/INote';
 import mongoose from 'mongoose';
-import User from '@/models/user';
 
 const Note = new mongoose.Schema(
   {
     name: {
       type: String,
       index: true,
+      default: '',
     },
 
     owner: {
       type: mongoose.Types.ObjectId,
-      ref: User,
+      ref: 'User',
     },
 
-    markdownNote: String,
+    markdownNote: {
+      type: String,
+      default: '',
+    },
+
+    noteBook: {
+      type: mongoose.Types.ObjectId,
+      ref: 'NoteBook',
+    },
+
+    status: {
+      type: String,
+      default: '',
+      enum: ['Active', 'On Hold', 'Completed', 'Dropped'],
+    },
+
+    tags: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Tag',
+      },
+    ],
   },
   { timestamps: true },
 );

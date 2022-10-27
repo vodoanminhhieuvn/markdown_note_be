@@ -17,4 +17,5 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     'prettier/prettier': 'warn',
   },
+  plugins: ['only-warn'],
 };

@@ -19,15 +19,9 @@ export default async ({ expressApp }) => {
    * of writing unit tests, just go and check how beautiful they are!
    */
 
-  const userModel = {
-    name: 'userModel',
-    // Notice the requirement syntax and the '.default'
-    model: require('../models/user').default,
-  };
-
-  const noteBookModel = {
-    name: 'noteBookModel',
-    model: require('../models/noteBook').default,
+  const tagModel = {
+    name: 'tagModel',
+    model: require('../models/tag').default,
   };
 
   const noteModel = {
@@ -35,13 +29,25 @@ export default async ({ expressApp }) => {
     model: require('../models/note').default,
   };
 
+  const noteBookModel = {
+    name: 'noteBookModel',
+    model: require('../models/noteBook').default,
+  };
+
+  const userModel = {
+    name: 'userModel',
+    // Notice the requirement syntax and the '.default'
+    model: require('../models/user').default,
+  };
+
   // It returns the agenda instance because it's needed in the subsequent loaders
   const { agenda } = dependencyInjectorLoader({
     mongoConnection,
     models: [
-      userModel,
-      noteBookModel,
       noteModel,
+      tagModel,
+      noteBookModel,
+      userModel,
       // salaryModel,
       // whateverModel
     ],

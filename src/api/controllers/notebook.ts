@@ -40,7 +40,7 @@ const getNotes = catchAsync(async (req: Request, res: Response) => {
   const noteBookService = Container.get(NoteBookService);
   const { listNote } = await noteBookService.GetNotes(noteBookID);
 
-  return res.json({ listNote }).status(200);
+  return res.json(listNote).status(200);
 });
 
 export default {

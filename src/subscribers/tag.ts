@@ -6,9 +6,9 @@ import { Logger } from 'winston';
 import { IUser } from '@/interfaces/IUser';
 
 @EventSubscriber()
-export default class NoteBookSubscriber {
-  @On(events.noteBook.create)
-  public async onNoteBookCreate({ noteBookID, owner }) {
+export default class TagSubscriber {
+  @On(events.tag.create)
+  public async onTagCreate({ tagID, owner }) {
     const logger: Logger = Container.get('logger');
 
     try {
@@ -18,13 +18,10 @@ export default class NoteBookSubscriber {
 
       await UserModel.findOneAndUpdate(
         { _id: owner },
-        { $push: { noteBooks: noteBookID } },
+        { $push: { tags: tagID } },
       );
-    } catch (e) {
-      logger.error(`🔥 Error on event ${events.noteBook.create}: %o`, e);
-
-      // Throw the error so the process die (check src/app.ts)
-      throw e;
+    } catch (error) {
+      logger.error(`🔥 Error on event ${events.tag.create}: %o`, error);
     }
   }
 }
