@@ -5,7 +5,7 @@ export interface INote {
   owner: mongoose.ObjectId;
   name: string;
   markdownNote: string;
-  noteBook: [string];
+  notebook: [string];
   tags: [string];
 }
 
@@ -18,7 +18,7 @@ export interface INoteUpdateDTO {
   _id: string;
   name: string;
   markdownNote: string;
-  noteBook: string;
+  notebook: string;
 }
 
 export interface INoteUpdateNotebookDTO {
@@ -34,4 +34,8 @@ export interface INoteUpdateStatusDTO {
 export interface INoteUpdateTagsDTO {
   noteID: string;
   tags: [string];
+}
+
+export interface INoteDeleteDTO {
+  noteID: string;
 }

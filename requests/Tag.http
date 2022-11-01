@@ -26,3 +26,12 @@ Cookie: key=first-value
 Authorization: Bearer {{auth_token}}
 
 {}
+
+###
+//? Delete tags request
+POST {{base_url}}/tag/delete_tag HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{ "tagID": "6351746fa18ca1a0c26db541" }

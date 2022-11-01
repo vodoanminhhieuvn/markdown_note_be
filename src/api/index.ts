@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import auth from './routes/auth';
 import user from './routes/user';
-import noteBook from './routes/noteBook';
+import noteBook from './routes/notebook';
 import note from './routes/note';
 import tag from './routes/tag';
 import agendash from './routes/agendash';

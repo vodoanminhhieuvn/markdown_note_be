@@ -19,15 +19,15 @@ const Note = new mongoose.Schema(
       default: '',
     },
 
-    noteBook: {
+    notebook: {
       type: mongoose.Types.ObjectId,
-      ref: 'NoteBook',
+      ref: 'Notebook',
     },
 
     status: {
       type: String,
       default: '',
-      enum: ['Active', 'On Hold', 'Completed', 'Dropped'],
+      enum: ['', 'Active', 'On Hold', 'Completed', 'Dropped'],
     },
 
     tags: [

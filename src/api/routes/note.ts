@@ -16,7 +16,7 @@ export default (app: Router) => {
           name: Joi.string().allow(''),
           markdownNote: Joi.string().allow(''),
         }).required(),
-        noteBookID: Joi.string(),
+        notebookID: Joi.string(),
       }),
     }),
     middlewares.isAuth,
@@ -49,7 +49,7 @@ export default (app: Router) => {
       }),
     }),
     middlewares.isAuth,
-    NoteController.updateNoteBook,
+    NoteController.updateNotebook,
   );
 
   route.put(
@@ -74,5 +74,16 @@ export default (app: Router) => {
     }),
     middlewares.isAuth,
     NoteController.updateTags,
+  );
+
+  route.post(
+    '/delete_note',
+    celebrate({
+      [Segments.BODY]: Joi.object({
+        noteID: Joi.string().required(),
+      }),
+    }),
+    middlewares.isAuth,
+    NoteController.deleteNote,
   );
 };

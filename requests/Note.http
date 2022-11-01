@@ -54,3 +54,12 @@ Cookie: key=first-value
 Authorization: Bearer {{auth_token}}
 
 { "noteID": "6344259d0db252a55442e3d1", "tags": ["634ff206a0705bc988e6a301"] }
+
+###
+//? Delete note request
+POST {{base_url}}/note/delete_note HTTP/1.1
+Content-Type: application/json
+Cookie: key=first-value
+Authorization: Bearer {{auth_token}}
+
+{ "noteID": "634e7f37b0c272a5b7abbdf7" }

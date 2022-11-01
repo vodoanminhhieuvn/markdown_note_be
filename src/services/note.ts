@@ -17,7 +17,7 @@ import {
 export default class NoteService {
   constructor(
     @Inject('noteModel') private noteModel: Models.NoteModel,
-    @Inject('noteBookModel') private noteBookModel: Models.NoteBookModel,
+    @Inject('notebookModel') private notebookModel: Models.NotebookModel,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -64,7 +64,7 @@ export default class NoteService {
       .find({ owner: owner }, { owner: 0 })
       .sort({ createdAt: -1 })
       .populate([
-        { path: 'noteBook', select: { _id: 1, name: 1 } },
+        { path: 'notebook', select: { _id: 1, name: 1 } },
         {
           path: 'tags',
           select: { _id: 1, name: 1, color: 1 },
@@ -84,7 +84,7 @@ export default class NoteService {
         {
           name: noteUpdateDTO.name,
           markdownNote: noteUpdateDTO.markdownNote,
-          noteBook: noteUpdateDTO.noteBook,
+          notebook: noteUpdateDTO.notebook,
         },
       );
 
@@ -107,7 +107,7 @@ export default class NoteService {
 
       this.eventDispatcher.dispatch(events.note.updateNotebook, {
         noteID: noteRecord._id.toString(),
-        currentNotebookID: noteRecord.noteBook?.toString() || '',
+        currentNotebookID: noteRecord.notebook?.toString() || '',
         updateNotebookID: noteUpdateNotebookDTO.notebookID,
       });
 
@@ -149,7 +149,7 @@ export default class NoteService {
     try {
       this.logger.silly("Update note's tags");
       await this.noteModel.findByIdAndUpdate(noteUpdateTagsDTO.noteID, {
-        $push: { tags: noteUpdateTagsDTO.tags },
+        $set: { tags: noteUpdateTagsDTO.tags },
       });
 
       return { success: true };
@@ -158,5 +158,18 @@ export default class NoteService {
 
       throw error;
     }
+  }
+
+  public async DeleteNote(noteID: string): Promise<{ result: boolean }> {
+    this.logger.silly('Deleting note');
+    const noteRecord = await this.noteModel.findByIdAndDelete(noteID);
+
+    if (noteRecord.notebook) {
+      await this.notebookModel.findByIdAndUpdate(noteRecord.notebook, {
+        $pull: { notes: noteRecord._id },
+      });
+    }
+
+    return { result: true };
   }
 }

@@ -3,8 +3,8 @@ export default {
     signUp: 'onUserSignUp',
     signIn: 'onUserSignIn',
   },
-  noteBook: {
-    create: 'onCreateNoteBook',
+  notebook: {
+    create: 'onCreateNotebook',
   },
   note: {
     create: 'onCreateNote',

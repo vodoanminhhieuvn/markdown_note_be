@@ -10,6 +10,7 @@ import { ITag, ITagDTO } from '@/interfaces/ITag';
 export default class TagService {
   constructor(
     @Inject('tagModel') private tagModel: Models.TagModel,
+    @Inject('noteModel') private noteModel: Models.NoteModel,
     @Inject('logger') private logger,
     @EventDispatcher() private eventDispatcher: EventDispatcherInterface,
   ) {}
@@ -55,5 +56,25 @@ export default class TagService {
     );
 
     return { listTag };
+  }
+
+  public async DeleteTag(
+    tagID: string,
+    owner: string,
+  ): Promise<{ result: boolean }> {
+    this.logger.silly('Deleting user tag record');
+
+    await this.noteModel.updateMany(
+      { owner: owner },
+      {
+        $pull: {
+          tags: tagID,
+        },
+      },
+    );
+
+    await this.tagModel.deleteOne({ _id: tagID });
+
+    return { result: true };
   }
 }

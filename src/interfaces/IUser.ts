@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   password: string;
   salt: string;
-  noteBooks: string[];
+  notebooks: string[];
   tags: string[];
 }
 

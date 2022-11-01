@@ -3,23 +3,23 @@ import { EventSubscriber, On } from 'event-dispatch';
 import events from './events';
 import mongoose from 'mongoose';
 import { Logger } from 'winston';
-import { INoteBook } from '@/interfaces/INoteBook';
+import { INotebook } from '@/interfaces/INotebook';
 
 @EventSubscriber()
 export default class NoteSubscriber {
   @On(events.note.create)
-  public async onNoteCreate({ noteBookID, noteID }) {
+  public async onNoteCreate({ notebookID, noteID }) {
     const Logger: Logger = Container.get('logger');
 
-    if (noteBookID == null) return;
+    if (notebookID == null) return;
 
     try {
-      const NoteBookModel = Container.get('noteBookModel') as mongoose.Model<
-        INoteBook & mongoose.Document
+      const NotebookModel = Container.get('notebookModel') as mongoose.Model<
+        INotebook & mongoose.Document
       >;
 
-      await NoteBookModel.findOneAndUpdate(
-        { _id: noteBookID },
+      await NotebookModel.findOneAndUpdate(
+        { _id: notebookID },
         { $push: { notes: noteID } },
       );
     } catch (error) {
@@ -42,12 +42,12 @@ export default class NoteSubscriber {
       return;
 
     try {
-      const NoteBookModel = Container.get('noteBookModel') as mongoose.Model<
-        INoteBook & mongoose.Document
+      const NotebookModel = Container.get('notebookModel') as mongoose.Model<
+        INotebook & mongoose.Document
       >;
 
       if (currentNotebookID) {
-        await NoteBookModel.findOneAndUpdate(
+        await NotebookModel.findOneAndUpdate(
           {
             _id: currentNotebookID,
           },
@@ -57,7 +57,7 @@ export default class NoteSubscriber {
         ).exec();
       }
 
-      await NoteBookModel.findOneAndUpdate(
+      await NotebookModel.findOneAndUpdate(
         {
           _id: updateNotebookID,
         },

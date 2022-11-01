@@ -21,4 +21,15 @@ export default (app: Router) => {
   );
 
   route.get('/get_tags', middlewares.isAuth, TagController.getTags);
+
+  route.post(
+    '/delete_tag',
+    celebrate({
+      [Segments.BODY]: Joi.object({
+        tagID: Joi.string().required(),
+      }),
+    }),
+    middlewares.isAuth,
+    TagController.deleteTag,
+  );
 };

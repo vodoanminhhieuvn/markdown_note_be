@@ -1,7 +1,7 @@
-import { INoteBook } from '@/interfaces/INoteBook';
+import { INotebook } from '@/interfaces/INotebook';
 import mongoose from 'mongoose';
 
-const NoteBook = new mongoose.Schema(
+const Notebook = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -21,12 +21,12 @@ const NoteBook = new mongoose.Schema(
       },
     ],
 
-    subNoteBooks: [String],
+    subNotebooks: [String],
   },
   { timestamps: true },
 );
 
-export default mongoose.model<INoteBook & mongoose.Document>(
-  'NoteBook',
-  NoteBook,
+export default mongoose.model<INotebook & mongoose.Document>(
+  'Notebook',
+  Notebook,
 );

@@ -9,7 +9,7 @@ export default (app: Router) => {
   app.use('/notebook', route);
 
   route.post(
-    '/create_note_book',
+    '/create_notebook',
     celebrate({
       [Segments.BODY]: Joi.object({
         name: Joi.string().required(),
@@ -20,7 +20,7 @@ export default (app: Router) => {
   );
 
   route.get(
-    '/get_note_book',
+    '/get_notebook',
     middlewares.isAuth,
     NoteBookController.getNoteBook,
   );
@@ -35,5 +35,16 @@ export default (app: Router) => {
     }),
     middlewares.isAuth,
     NoteBookController.getNotes,
+  );
+
+  route.post(
+    '/delete_notebook',
+    celebrate({
+      [Segments.BODY]: Joi.object({
+        notebookID: Joi.string().required(),
+      }),
+    }),
+    middlewares.isAuth,
+    NoteBookController.deleteNotebook,
   );
 };

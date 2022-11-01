@@ -29,9 +29,9 @@ export default async ({ expressApp }) => {
     model: require('../models/note').default,
   };
 
-  const noteBookModel = {
-    name: 'noteBookModel',
-    model: require('../models/noteBook').default,
+  const notebookModel = {
+    name: 'notebookModel',
+    model: require('../models/notebook').default,
   };
 
   const userModel = {
@@ -46,7 +46,7 @@ export default async ({ expressApp }) => {
     models: [
       noteModel,
       tagModel,
-      noteBookModel,
+      notebookModel,
       userModel,
       // salaryModel,
       // whateverModel

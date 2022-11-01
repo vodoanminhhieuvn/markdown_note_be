@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import catchAsync from '@/utils/catchAsync';
 import { Logger } from 'winston';
 import {
+  INoteDeleteDTO,
   INoteDTO,
   INoteUpdateDTO,
   INoteUpdateNotebookDTO,
@@ -46,10 +47,10 @@ const updateNotes = catchAsync(async (req: Request, res: Response) => {
   const noteService = Container.get(NoteService);
   const { success } = await noteService.UpdateNote(noteUpdateDTO);
 
-  return res.json({ success }).status(200);
+  return res.json(success).status(200);
 });
 
-const updateNoteBook = catchAsync(async (req: Request, res: Response) => {
+const updateNotebook = catchAsync(async (req: Request, res: Response) => {
   const logger: Logger = Container.get('logger');
   logger.debug('Calling Update-Notebook endpoint with body: %o', req.body);
 
@@ -58,7 +59,7 @@ const updateNoteBook = catchAsync(async (req: Request, res: Response) => {
   const noteService = Container.get(NoteService);
   const { success } = await noteService.UpdateNoteBook(noteUpdateNotebookDTO);
 
-  return res.json({ success }).status(200);
+  return res.json(success).status(200);
 });
 
 const updateStatus = catchAsync(async (req: Request, res: Response) => {
@@ -70,7 +71,7 @@ const updateStatus = catchAsync(async (req: Request, res: Response) => {
   const noteService = Container.get(NoteService);
   const { success } = await noteService.UpdateStatus(noteUpdateStatusDTO);
 
-  return res.json({ success }).status(200);
+  return res.json(success).status(200);
 });
 
 const updateTags = catchAsync(async (req: Request, res: Response) => {
@@ -83,14 +84,28 @@ const updateTags = catchAsync(async (req: Request, res: Response) => {
 
   const { success } = await noteService.UpdateTags(noteUpdateTagsDTO);
 
-  return res.json({ success }).status(200);
+  return res.json(success).status(200);
+});
+
+const deleteNote = catchAsync(async (req: Request, res: Response) => {
+  const logger: Logger = Container.get('logger');
+  logger.debug('Calling Deleting-Tags endpoint with body: %o', req.body);
+
+  const noteDeleteDTO: INoteDeleteDTO = req.body;
+
+  const noteService = Container.get(NoteService);
+
+  const { result } = await noteService.DeleteNote(noteDeleteDTO.noteID);
+
+  return res.json(result).status(200);
 });
 
 export default {
   createNote,
   getNotes,
   updateNotes,
-  updateNoteBook,
+  updateNotebook,
   updateStatus,
   updateTags,
+  deleteNote,
 };

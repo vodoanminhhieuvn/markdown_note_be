@@ -6,9 +6,9 @@ import { Logger } from 'winston';
 import { IUser } from '@/interfaces/IUser';
 
 @EventSubscriber()
-export default class NoteBookSubscriber {
-  @On(events.noteBook.create)
-  public async onNoteBookCreate({ noteBookID, owner }) {
+export default class NotebookSubscriber {
+  @On(events.notebook.create)
+  public async onNotebookCreate({ noteBookID, owner }) {
     const logger: Logger = Container.get('logger');
 
     try {
@@ -21,7 +21,7 @@ export default class NoteBookSubscriber {
         { $push: { noteBooks: noteBookID } },
       );
     } catch (e) {
-      logger.error(`🔥 Error on event ${events.noteBook.create}: %o`, e);
+      logger.error(`🔥 Error on event ${events.notebook.create}: %o`, e);
 
       // Throw the error so the process die (check src/app.ts)
       throw e;

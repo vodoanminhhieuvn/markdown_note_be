@@ -16,3 +16,7 @@ export interface ITagUpdateDTO {
   name: string;
   color: string;
 }
+
+export interface ITagDeleteDTO {
+  tagID: string;
+}
